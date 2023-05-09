@@ -29,8 +29,8 @@ const register = async (req, res) => {
       image: req.file.filename,
       password: passwordHash,
     });
-    res.render('register', { message: 'Your registration has been successful!' });
-    // res.redirect('/')
+//     res.render('register', { message: 'Your registration has been successful!' });
+    res.redirect('/')
   } catch (error) {
     console.log(error.message);
   }
