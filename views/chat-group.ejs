@@ -1,0 +1,105 @@
+<%- include('layouts/header.ejs') %>
+
+    <h2 class="mt-4 ">
+        Group Chatting
+    </h2>
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="list-group">
+                <% if(myGroup.length> 0 ){
+                    for(let i = 0; i< myGroup.length; i++){ %>
+                        <li class="list-group-item list-group-item-dark cursor-pointer group-list"
+                            data-id="<%= myGroup[i]['id'] %>">
+                            <img src="/images/<%= myGroup[i]['image'] %>" width="30px " height="30px">
+                            <%= myGroup[i]['name'] %>
+                        </li>
+                        <% } } %>
+             <!-- ----------show joined group-------- -->
+
+             <% if(joinedGroups.length> 0 ){
+                for(let i = 0; i< joinedGroups.length; i++){ %>
+                    <li class="list-group-item list-group-item-dark cursor-pointer group-list"
+                        data-id="<%= joinedGroups[i]['group']['id'] %>">
+                        <img src="/images/<%= joinedGroups[i]['group']['image'] %>" width="30px " height="30px">
+                        <%= joinedGroups[i]['group']['name'] %>
+                    </li>
+                    <% } } %>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <h3 class="group-start-head"> click to start</h3>
+            <div class="group-chat-section">
+                <div id="group-chat-container">
+
+
+                </div>
+                <form action="" id="group-chat-form">
+
+                  <div class="form-group d-flex">
+                    <input type="hidden" name="id" id="edit-group-message-id">
+                    <input type="text" name="message" class="form-control border w-85" placeholder="Enter message" id="group-message">
+                    <input type="submit" value="send" class="btn btn btn-outline-primary">
+                  </div>
+
+
+                    <!-- <input type="hidden" name="id" id="edit-group-message-id">
+                    <input type="text" name="message" class="border" placeholder="Enter message" id="group-message">
+                    <input type="submit" value="send" class="btn btn-primary"> -->
+                </form>
+
+            </div>
+        </div>
+        <!-- delete group chat -->
+        <div class="modal fade" id="deleteGroupChatModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Delete Chat</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form id="delete-group-chat-form">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="delete-message-group-id">
+                    <p>Are you sure you want to delete this below message?</p>
+                    <p><b id="delete-group-message"></b></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+            <!-- update chat model -->
+  <!-- <div class="modal fade" id="editGroupChatModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Edit Chat</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="update-group-chat-form">
+        <div class="modal-body">
+            <input type="hidden" name="id" id="edit-group-message-id">
+            <input type="text" name="message" id="update-group-message" required placeholder="Enter Message">
+            <p>Are you sure you want to edit this below message?</p>
+            <p><b id="delete-message"></b></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div> -->
+    </div>
+  
+  
+ 
+    <%- include('layouts/footer.ejs') %>
