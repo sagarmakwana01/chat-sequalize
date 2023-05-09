@@ -1,12 +1,14 @@
+  
   const Sequelize = require('sequelize');
-
-  const sequelize = new Sequelize({
-    username: 'root',
-    password:'omSj6rcm1BqvnNYawkrS',
-    database:'railway',
+  const { MYSQLDATABASE,MYSQLUSER,MYSQLPORT,MYSQLHOST,MYSQLPASSWORD } = process.env;
+  const sequelize = new Sequelize(
+   {
+    username:MYSQLUSER,
+    password:MYSQLPASSWORD,
+    database:MYSQLDATABASE,
     dialect: 'mysql',
-    host: 'containers-us-west-4.railway.app',
-    port: 7071,
+    host: MYSQLHOST,
+    port: MYSQLPORT,
     logging: false
   });
 
