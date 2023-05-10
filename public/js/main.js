@@ -125,34 +125,7 @@ $('#chat-form').submit(function (event) {
 			type: 'POST',
 			data: { sender_id: sender_id, receiver_id: receiver_id, message: message,senderName:userData.name},
 			success: function (response) {
-				if (response.success) {
-
-					function showNotification(){
-						const notification = new Notification(response.data.senderName,{
-							body: response.data.message,
-						});
-					}
-	
-					console.log(Notification.permission)
-					if (Notification.permission ==="granted"){
-						showNotification()
-					}else if(Notification.permission !=='denied'){
-						Notification.requestPermission().then(permission=>{
-							if(permission ==='granted'){
-								showNotification()
-							}
-						})
-					}
-
-
-
-					
-					
-					
-					
-					
-					
-					
+				if (response.success) {	
 					// console.log(response.data);
 					// console.log(response.data.senderName);
 					$('#message').val('');
@@ -197,6 +170,24 @@ $('#chat-form').submit(function (event) {
 
 socket.on('loadNewChat',function(data){
 	if(sender_id==data.receiver_id && receiver_id==data.sender_id){
+		
+		function showNotification(){
+			const notification = new Notification(data.senderName,{
+				body: data.message,
+				icon:'http://localhost:4000/images/1682679041885-author.png'
+			});
+		}
+
+		console.log(Notification.permission)
+		if (Notification.permission ==="granted"){
+			showNotification()
+		}else if(Notification.permission !=='denied'){
+			Notification.requestPermission().then(permission=>{
+				if(permission ==='granted'){
+					showNotification()
+				}
+			})
+		}
 
 		let html =`<div class="distance-user-chat" id='`+data.id+`'>
 					<h5><p>`+data.senderName+`</p><span>`+ data.message + `</span></h5>
