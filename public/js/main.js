@@ -126,6 +126,33 @@ $('#chat-form').submit(function (event) {
 			data: { sender_id: sender_id, receiver_id: receiver_id, message: message,senderName:userData.name},
 			success: function (response) {
 				if (response.success) {
+
+					function showNotification(){
+						const notification = new Notification(response.data.senderName,{
+							body: response.data.message,
+						});
+					}
+	
+					console.log(Notification.permission)
+					if (Notification.permission ==="granted"){
+						showNotification()
+					}else if(Notification.permission !=='denied'){
+						Notification.requestPermission().then(permission=>{
+							if(permission ==='granted'){
+								showNotification()
+							}
+						})
+					}
+
+
+
+					
+					
+					
+					
+					
+					
+					
 					// console.log(response.data);
 					// console.log(response.data.senderName);
 					$('#message').val('');
