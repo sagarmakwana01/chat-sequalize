@@ -278,11 +278,17 @@ const updateChatGroup = async (req, res) => {
 // post controller delete chat group
 const deleteChatGroup = async (req, res) => {
   try {
-    await Group.destroy({ where: { id: req.body.id } });
-    await Member.destroy({ where: { group_id: req.body.id } });
+    const groupId = req.body.id;
+
+    // Delete associated members first
+    await Member.destroy({ where: { group_id: groupId } });
+
+    // Delete the group
+    await Group.destroy({ where: { id: groupId } });
 
     res.status(200).send({ success: true, msg: 'Chat Group deleted successfully' });
   } catch (error) {
+    console.log(error);
     res.status(400).send({ success: false, msg: error.message });
   }
 };
