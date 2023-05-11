@@ -171,23 +171,45 @@ $('#chat-form').submit(function (event) {
 socket.on('loadNewChat',function(data){
 	if(sender_id==data.receiver_id && receiver_id==data.sender_id){
 		
-		function showNotification(){
-			const notification = new Notification(data.senderName,{
-				body: data.message,
-				icon:'http://localhost:4000/images/1682679041885-author.png'
-			});
-		}
+	
 
-		console.log(Notification.permission)
-		if (Notification.permission ==="granted"){
-			showNotification()
-		}else if(Notification.permission !=='denied'){
-			Notification.requestPermission().then(permission=>{
-				if(permission ==='granted'){
-					showNotification()
+	function showNotification() {
+			const notification = new Notification(data.senderName, {
+			  body: data.message,
+			  icon: `http://localhost:4000/images/${userData.image}`
+			  
+			});
+		  }
+		  
+		//   console.log(Notification.permission);
+		  
+		  if (Notification.permission === "granted") {
+			if (document.visibilityState === "visible") {
+			  // Receiver's browser window is open, do not show notification
+			  console.log("Receiver's browser is open, notification not shown");
+			} else {
+			  // Receiver's browser window is closed or minimized, show notification
+			  showNotification();
+			}
+		  } else if (Notification.permission !== "denied") {
+			Notification.requestPermission().then(permission => {
+			  if (permission === "granted") {
+				if (document.visibilityState === "visible") {
+				  // Receiver's browser window is open, do not show notification
+				  console.log("Receiver's browser is open, notification not shown");
+				} else {
+// 				  Receiver's browser window is closed or minimized, show notification
+				  showNotification();
 				}
-			})
-		}
+			  }
+			});
+		  }
+		  
+		  document.addEventListener("visibilitychange", function() {
+			if (Notification.permission === "granted" && document.visibilityState === "visible") {
+			  console.log("Receiver's browser is open, notification not shown");
+			}
+		  });
 
 		let html =`<div class="distance-user-chat" id='`+data.id+`'>
 					<h5><p>`+data.senderName+`</p><span>`+ data.message + `</span></h5>
