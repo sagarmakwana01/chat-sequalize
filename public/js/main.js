@@ -60,38 +60,7 @@ socket.on('getOfflineUser', function (data) {
 	$('#' + data.user_id + '-status').addClass('offline-status')
 });
 
-// chet save of user
-// $('#chat-form').submit(function (event) {
-// 	event.preventDefault();
 
-// 	var message = $('#message').val();
-
-// 	$.ajax({
-// 		url: '/saveChat',
-// 		type: 'POST',
-// 		data: { sender_id:sender_id, receiver_id: receiver_id, message: message },
-// 		success: function (response) {
-// 			// console.log(response)
-// 			if (response.success) {
-// 				// console.log(response)
-// 				$('#message').val('')
-// 				let chat = response.data.message;
-// 				let html = `<div class="current-user-chat" id='`+response.data.id+`'>
-// 				<h5><span>`+ chat + `</span>
-// 					<i class="fa fa-trash" aria-hidden="true" data-id='`+response.data.id+`' data-toggle="modal" data-target="#deleteChatModel"></i>
-// 					<i class="fa fa-edit" aria-hidden="true" data-id='`+response.data.id+`' data-msg='`+chat+`' data-toggle="modal" data-target="#editChatModel"></i>
-// 					</h5>
-// 				 </div> `;
-// 				$('#chat-container').append(html)
-// 				socket.emit('newChat', response.data)
-// 				scrollChat()
-// 			} else {
-// 				alert(data.msg)
-// 			}
-
-// 		}
-// 	})
-// })
 // socket.on('loadNewChat',function(data){
 // 	if(sender_id==data.receiver_id && receiver_id==data.sender_id){
 
@@ -123,7 +92,7 @@ $('#chat-form').submit(function (event) {
 		$.ajax({
 			url: '/saveChat',
 			type: 'POST',
-			data: { sender_id: sender_id, receiver_id: receiver_id, message: message,senderName:userData.name},
+			data: { sender_id: sender_id, receiver_id: receiver_id, message: message,senderName:userData.name, image:userData.image},
 			success: function (response) {
 				if (response.success) {	
 					// console.log(response.data);
@@ -176,29 +145,41 @@ socket.on('loadNewChat',function(data){
 	function showNotification() {
 			const notification = new Notification(data.senderName, {
 			  body: data.message,
-			  icon: `http://localhost:4000/images/${userData.image}`
+			  icon: `https://chat-sequalize-production.up.railway.app/images/${data.image}`
 			  
 			});
+			notification.addEventListener('click', function() {
+				// Handle notification click event
+				// Example code: Bring the browser tab to the front
+				window.focus();
+				// Perform any other desired action
+				// Example code: Open the conversation section
+				$('.start-head').hide();
+				$('.chat-section').show();
+				socket.emit('existsChat', { sender_id: sender_id, receiver_id: receiver_id });
+			  });
 		  }
 		  
 		//   console.log(Notification.permission);
 		  
 		  if (Notification.permission === "granted") {
+		
 			if (document.visibilityState === "visible") {
 			  // Receiver's browser window is open, do not show notification
-			  console.log("Receiver's browser is open, notification not shown");
+			  //   console.log("Receiver's browser is open, notification not shown");
 			} else {
 			  // Receiver's browser window is closed or minimized, show notification
 			  showNotification();
+			  
 			}
 		  } else if (Notification.permission !== "denied") {
 			Notification.requestPermission().then(permission => {
 			  if (permission === "granted") {
 				if (document.visibilityState === "visible") {
 				  // Receiver's browser window is open, do not show notification
-				  console.log("Receiver's browser is open, notification not shown");
+				 //   console.log("Receiver's browser is open, notification not shown");
 				} else {
-// 				  Receiver's browser window is closed or minimized, show notification
+				  // Receiver's browser window is closed or minimized, show notification
 				  showNotification();
 				}
 			  }
@@ -207,7 +188,7 @@ socket.on('loadNewChat',function(data){
 		  
 		  document.addEventListener("visibilitychange", function() {
 			if (Notification.permission === "granted" && document.visibilityState === "visible") {
-			  console.log("Receiver's browser is open, notification not shown");
+			//   console.log("Receiver's browser is open, notification not shown");
 			}
 		  });
 
