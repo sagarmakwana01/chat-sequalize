@@ -14,6 +14,9 @@ const GroupChat = sequelize.define('GroupChat', {
   senderName: {
     type: Sequelize.STRING
   },
+    image: {
+    type: Sequelize.STRING
+  }
 
 },{ timestamps: true,});
 
