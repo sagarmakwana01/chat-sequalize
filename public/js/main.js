@@ -61,18 +61,6 @@ socket.on('getOfflineUser', function (data) {
 });
 
 
-// socket.on('loadNewChat',function(data){
-// 	if(sender_id==data.receiver_id && receiver_id==data.sender_id){
-
-// 		let html =`<div class="distance-user-chat" id='`+data.id+`'>
-// 					<h5><span>`+ data.message + `</span></h5>
-// 					 </div> `;
-// 					 $('#chat-container').append(html)
-// 	}
-// 	scrollChat()
-// })
-
-
 var chatMode = 'send';
 
 $(document).on('click','.fa-edit',function(){
@@ -282,37 +270,6 @@ socket.on('chatMessageDeleted',function(id){
 $('#'+id).remove();
 });
 
-// $(document).on('click','.fa-edit',function(){
-// $('#edit-message-id').val($(this).attr('data-id'));
-// $('#update-message').val($(this).attr('data-msg'));
-// })
-
-// $('#update-chat-form').submit(function(event){
-// event.preventDefault();
-// var id =$('#edit-message-id').val();
-// var msg =$('#update-message').val();
-// $.ajax({
-// 	type: 'POST',
-// 	url: '/updateChat',
-// 	data: {id:id, message:msg},
-// 	success: function(res){
-// 		if(res.success == true){
-// 			$('#editChatModel').modal('hide');
-// 			$('#'+id).find('span').text(msg)
-// 			$('#'+id).find('.fa-edit').attr('data-msg',msg)
-
-// 			socket.emit('chatUpdated',{id:id,message:msg});
-// 		}else{
-// 			alert(res.msg);
-// 		}
-// 	}
-// });
-// });
-
-// socket.on('chatMessageUpdated',function(data){
-// $('#'+data.id).find('span').text(data.message)
-
-// })
 //------------------------------------------- end dynamic Chat app script-------------
 
 //------------------------------------------- start group dynamic Chat app script-------------
@@ -335,7 +292,7 @@ $('.addMember').click(function(){
 				 let userData='';
 				 for(let i = 0; i < users.length; i++){
 					let isMemberOfGroup = users[i]['Members'].length > 0?true:false;
-                    userData+=`
+                                           userData+=`
 					<tr>
 					<td>
 					 	<input type="checkbox" `+(isMemberOfGroup? 'checked':'')+` name="members" value="`+users[i]['id']+`"/>
@@ -491,46 +448,6 @@ $('.group-list').click(function(){
 	loadGroupChats()
 });
 
-// $('#group-chat-form').submit(function (event) {
-// 	event.preventDefault();
-
-// 	var message = $('#group-message').val();
-
-// 	$.ajax({
-// 		url: '/group-chat-save',
-// 		type: 'POST',
-// 		data: { sender_id: sender_id, group_id: global_group_id, message: message },
-// 		success: function (response) {
-// 			// console.log(response.chat)
-// 			if (response.success) {
-// 				// console.log(response.chat.id)
-// 				$('#group-message').val('')
-// 				let message = response.chat.message;
-// 				let html = `<div class="current-user-chat" id='`+response.chat.id+`'>
-// 				<h5><span>`+ message + `</span>
-// 					<i class="fa fa-trash" aria-hidden="true" data-id='`+response.chat.id+`' data-toggle="modal" data-target="#deleteGroupChatModel"></i>
-// 					<i class="fa fa-edit" aria-hidden="true" data-id='`+response.chat.id+`' data-msg='`+message+`' data-toggle="modal" data-target="#editGroupChatModel"></i>
-// 					</h5>
-// 				 </div> `;
-// 				$('#group-chat-container').append(html)
-// 				socket.emit('newGroupChat', response.chat)
-// 				scrollGroupChat()
-// 			} else {
-// 				alert(data.msg)
-// 			}
-
-// 		}
-// 	})
-// })
-// socket.on('loadNewGroupChat', function (data) {
-// 	if(global_group_id == data.group_id) {
-// 		let html =  `<div class="distance-user-chat" id='`+data.id+`'>
-// 	     	<h5><span>`+ data.message + `</span> </h5>
-// 		 </div> `;
-// 		 $('#group-chat-container').append(html);
-// 		 scrollGroupChat();
-// 	}
-// })
 
 $(document).on('click','.fa-edit',function(){
 	var id = $(this).attr('data-id');
