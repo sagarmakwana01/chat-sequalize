@@ -4,11 +4,11 @@
   const sequelize = new Sequelize(
    {
    username: 'root',
-    password:'i67WD21sb9vCb21OAFyV',
+    password:'HHpa7k00Mk2yOeIpUUzd',
     database:'railway',
     dialect: 'mysql',
-    host: 'containers-us-west-48.railway.app',
-    port: 7934,
+    host: 'containers-us-west-185.railway.app',
+    port: 6677,
     logging: false
   });
 
