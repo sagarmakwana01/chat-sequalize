@@ -33,9 +33,8 @@ const Chat = sequelize.define('Chat', {
     type: Sequelize.STRING,
     allowNull: true,
   },
-  receiverName: {
+  image: {
     type: Sequelize.STRING,
-    allowNull: true,
   },
 }, {
   timestamps: true,
