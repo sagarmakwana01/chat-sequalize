@@ -365,7 +365,7 @@ const saveGroupChat = async (req, res) => {
       group_id,
       message,
       senderName,
-     image
+      image,
     });
 
     res.status(200).send({ success: true, chat });
