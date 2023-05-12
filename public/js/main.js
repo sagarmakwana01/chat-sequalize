@@ -557,7 +557,7 @@ $('#group-chat-form').submit(function (event) {
 		$.ajax({
 			url: '/group-chat-save',
 			type: 'POST',
-			data: { sender_id: sender_id, group_id: global_group_id, message: message,senderName:userData.name },
+			data: { sender_id: sender_id, group_id: global_group_id, message: message,senderName:userData.name, image:userData.image},
 			success: function (response) {
 				if (response.success) {
 					console.log(response)
@@ -606,6 +606,50 @@ $('#group-chat-form').submit(function (event) {
 
 socket.on('loadNewGroupChat', function (data) {
 	if(global_group_id == data.group_id) {
+		
+		function showNotification() {
+			const notification = new Notification(data.senderName, {
+			  body: data.message,
+			  icon: `https://chat-sequalize-production.up.railway.app/images/${data.image}`
+			});
+		  
+			notification.addEventListener('click', function() {
+			  // Handle notification click event
+			  // Example code: Bring the browser tab to the front
+			  window.focus();
+		  
+			  // Perform any other desired action
+			  // Example code: Open the group chat section
+			  $('.group-start-head').hide();
+			  $('.group-chat-section').show();
+			  data.group_id = $(this).attr('data-id');
+			  loadGroupChats();
+			});
+		  }
+		  
+		  // Check if the browser supports notifications
+		  if (Notification.permission === 'granted') {
+			// Browser permission already granted, show the notification
+			if (document.visibilityState !== 'visible') {
+			  showNotification();
+			}
+		  } else if (Notification.permission !== 'denied') {
+			// Request permission from the user
+			Notification.requestPermission().then(permission => {
+			  if (permission === 'granted' && document.visibilityState !== 'visible') {
+				showNotification();
+			  }
+			});
+		  }
+		  
+		  document.addEventListener('visibilitychange', function() {
+			if (Notification.permission === 'granted' && document.visibilityState === 'visible') {
+			  // Receiver's browser is open, do not show the notification
+			  // You can perform additional actions if needed
+			}
+		  });
+		  
+		
 		let html =  `<div class="distance-user-chat" id='`+data.id+`'>
 	     	<h5><p>`+ data.senderName + `</p><span>`+ data.message + `</span> </h5>
 		 </div> `;
