@@ -104,13 +104,13 @@ const loadDashboard = async (req, res) => {
   // post controller saveChat
   const saveChat = async (req, res) => {
     try {
-      const { sender_id, receiver_id, message, senderName, receiver_name } = req.body;
+      const { sender_id, receiver_id, message, senderName, image } = req.body;
       const newChat = await Chat.create({
         sender_id: sender_id,
         receiver_id: receiver_id,
         message: message,
         senderName: senderName,
-        receiverName: receiver_name
+        image: image
       });
       res.status(200).send({ success: true, msg: 'chat inserted!', data: newChat });
     } catch (error) {
@@ -358,13 +358,14 @@ const groupChats = async (req, res) => {
 
 const saveGroupChat = async (req, res) => {
   try {
-    const { sender_id, group_id, message,senderName, } = req.body;
+    const { sender_id, group_id, message,senderName,image } = req.body;
 
     const chat = await GroupChat.create({
       sender_id,
       group_id,
       message,
       senderName,
+     image
     });
 
     res.status(200).send({ success: true, chat });
